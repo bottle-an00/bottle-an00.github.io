@@ -16,7 +16,7 @@ timezone:
 
 title: JBA's 끄적끄적..
 
-tagline: 내 꿈은 지구 정복
+tagline: "자율주행 하고파"
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
@@ -35,7 +35,6 @@ social:
   email: sjba10815@google.com 
   links:
     # The first element serves as the copyright owner's link
-    #- https://twitter.com/username # change to your Twitter homepage
     - https://github.com/bottle-an00 # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
