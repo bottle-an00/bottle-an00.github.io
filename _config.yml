@@ -149,7 +149,10 @@ baseurl: ""
 
 plugins: [jekyll-youtube]
  # This will require each of these gems automatically.
- 
+
+favicon:
+  path: /assets/favicon.ico
+
 # ------------ The following options are not recommended to be modified ------------------
 
 kramdown:
