@@ -148,8 +148,8 @@ plugins: [jekyll-youtube]
  # This will require each of these gems automatically.
 
 favicon:
-  path: /assets/favicon.ico
-
+  path: /assets/img/favicons/favicon.ico
+  
 # ------------ The following options are not recommended to be modified ------------------
 
 kramdown:
