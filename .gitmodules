@@ -1,0 +1,3 @@
+[submodule "assets/lib/chirpy-static-assets"]
+	path = assets/lib/chirpy-static-assets
+	url = https://github.com/cotes2020/chirpy-static-assets.git
