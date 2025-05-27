@@ -25,6 +25,30 @@
           <span>{{ site.data.locales[include.lang].tabs.home | upcase }}</span>
         </a>
       </li>
+      
+      <!-- Categories -->
+      <li class="nav-item">
+        <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0);" id="toggle-categories">
+          <span>
+            <i class="fa-fw fas fa-folder-open"></i>
+            CATEGORIES
+          </span>
+          <i class="fas fa-chevron-down" id="toggle-icon"></i>
+          </a>
+        <ul class="nav flex-column ms-0 d-none" id="category-list">
+          {% assign sorted_categories = site.categories | sort %}
+          {% for category in sorted_categories %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ site.baseurl }}/categories/{{ category[0] | slugify }}/">
+                <i class="fa-fw fas fa-angle-right"></i>
+                {{ category[0] }} ({{ category[1].size }})
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+
+
       <!-- the real tabs -->
       {% for tab in site.tabs %}
         <li class="nav-item{% if tab.url == page.url %}{{ " active" }}{% endif %}">
@@ -95,3 +119,5 @@
   <!-- .sidebar-bottom -->
 </aside>
 <!-- #sidebar -->
+
+
