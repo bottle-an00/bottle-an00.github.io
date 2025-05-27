@@ -152,7 +152,7 @@ plugins: [jekyll-youtube]
 
 favicon:
   path: /assets/img/favicons/favicon.ico
-
+  
 # ------------ The following options are not recommended to be modified ------------------
 
 kramdown:
@@ -196,7 +196,6 @@ defaults:
 
 sass:
   style: compressed
-  custom: assets/css/custom.scss
 
 compress_html:
   clippings: all
