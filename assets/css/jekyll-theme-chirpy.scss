@@ -11,8 +11,28 @@
 /* append your custom style below */
 #category-list {
   width: 130%;
+  margin-left: 0; 
   padding-left: 0rem;
   padding-right: 1.0rem;
-  font-size: 0.85rem; /* 필요 시 텍스트 크기도 조정 */
+  font-size: 0.9rem; /* 필요 시 텍스트 크기도 조정 */
   word-break: break-word; /* 긴 단어 줄바꿈 */
+}
+
+#sidebar ul.collapse {
+  width: 140%;
+  padding-left: 0.5rem; /* 너무 붙지 않도록 최소한만 남김 */
+  margin-left: 0;       /* 필요시 마진도 제거 */
+  margin-bottom: 0;       /* 필요시 마진도 제거 */
+  list-style: none;     /* 불릿 제거 */
+}
+
+#sidebar .collapse .nav-link {
+  padding-left: 0.75rem; /* 기본보다 줄이기 */
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.9rem; /* 작게 보이고 싶다면 */
+}
+
+#sidebar .nav-link i.fa-angle-right {
+  margin-right: 0.3rem; /* 필요하면 간격 줄이기 */
 }
