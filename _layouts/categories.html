@@ -58,7 +58,11 @@ layout: page
           <i class="far fa-folder{% if sub_categories_size > 0 %}-open{% endif %} fa-fw"></i>
 
           {% capture _category_url %}/categories/{{ parent | slugify | url_encode }}/{% endcapture %}
-          <a href="{{ _category_url | relative_url }}" class="mx-2">{{ parent }}</a>
+          {% if sub_categories_size > 0 %}
+            <span class="mx-2 text-muted">{{ parent }}</span>
+          {% else %}
+            <a href="{{ _category_url | relative_url }}" class="mx-2">{{ parent }}</a>
+          {% endif %}
 
           <span class="text-muted small font-weight-light">
             {% if sub_categories_size > 0 %}
@@ -105,7 +109,7 @@ layout: page
               <li class="list-group-item">
                 <i class="far fa-folder fa-fw"></i>
                 {% capture sub_key %}{{ parent }}/{{ sub }}{% endcapture %}
-                {% capture _sub_ctg_url %}/categories/{{ parent | slugify | url_encode }}/{{ sub | slugify | url_encode }}/{% endcapture %}
+                {% capture _sub_ctg_url %}/categories/{{ parent | url_encode }}-{{ sub | url_encode }}/{% endcapture %}
                 <a href="{{ _sub_ctg_url | relative_url }}" class="mx-2">{{ sub }}</a>
                 {% assign posts_size = site.categories[sub_key] | size %}
                 <span class="text-muted small font-weight-light">
@@ -121,7 +125,7 @@ layout: page
           </ul>
         </div>
       {% else %}
-        <div class="collapse show" aria-expanded="true">
+        <div class="collapse" aria-expanded="false">
           <ul class="list-group">
             <li class="list-group-item">
               <i class="far fa-folder fa-fw"></i>

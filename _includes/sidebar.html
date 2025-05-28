@@ -27,6 +27,7 @@
       </li>
       
       <!-- Categories -->
+
       <li class="nav-item">
   <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0);" id="toggle-categories">
     <span>
@@ -36,36 +37,49 @@
     <i class="fas fa-chevron-down" id="toggle-icon"></i>
   </a>
 
-  <ul class="nav flex-column ms-0 d-none" id="category-list">
-    {% assign sorted_categories = site.categories | sort %}
-    {% assign top_level_categories = "" | split: "" %}
+ <ul class="nav flex-column ms-0 d-none" id="category-list">
+  {% assign sorted_categories = site.categories | sort %}
+  {% assign top_level_categories = "" | split: "" %}
 
-    {%- comment -%}
-      중복 제거 및 정렬된 상위 카테고리 목록 추출
-    {%- endcomment -%}
+  {% for category in sorted_categories %}
+    {% assign cat_name = category[0] %}
+    {% assign first_part = cat_name | split: "/" | first %}
+    {% unless top_level_categories contains first_part %}
+      {% assign top_level_categories = top_level_categories | push: first_part %}
+    {% endunless %}
+  {% endfor %}
+
+  {% for top in top_level_categories %}
+    {% assign cat_id = top | slugify %}
+
+    {% assign has_subcategories = false %}
     {% for category in sorted_categories %}
       {% assign cat_name = category[0] %}
-      {% assign first_part = cat_name | split: "/" | first %}
-      {% unless top_level_categories contains first_part %}
-        {% assign top_level_categories = top_level_categories | push: first_part %}
-      {% endunless %}
+      {% assign parts = cat_name | split: "/" %}
+      {% if parts.size > 1 and parts[0] == top %}
+        {% assign has_subcategories = true %}
+        {% break %}
+      {% endif %}
     {% endfor %}
 
-    {% for top in top_level_categories %}
-      {% assign cat_id = top | slugify %}
-      <li class="nav-item" id="h_{{ cat_id }}">
-        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#l_{{ cat_id }}" role="button" aria-expanded="false" aria-controls="l_{{ cat_id }}">
+    <li class="nav-item" id="h_{{ cat_id }}">
+      {% if has_subcategories %}
+        <a class="nav-link d-flex justify-content-start align-items-center" data-bs-toggle="collapse" href="#l_{{ cat_id }}" role="button" aria-expanded="true" aria-controls="l_{{ cat_id }}">
           <span><i class="far fa-folder fa-fw"></i> {{ top }}</span>
           <i class="fas fa-angle-down"></i>
         </a>
 
-        <ul class="collapse ms-2" id="l_{{ cat_id }}">
+        {%- comment -%}
+          하위 카테고리가 있으면 기본 펼침 상태(show) 추가
+        {%- endcomment -%}
+        <ul class="collapse ms-0 show" id="l_{{ cat_id }}">
           {% for category in sorted_categories %}
             {% assign cat_name = category[0] %}
             {% assign parts = cat_name | split: "/" %}
             {% if parts.size > 1 and parts[0] == top %}
               <li class="nav-item">
-                <a class="nav-link" href="{{ site.baseurl }}/categories/{{ cat_name | slugify }}/">
+                {% capture cat_slug %}{{ parts[0] | slugify }}-{{ parts[1] | slugify }}{% endcapture %}
+                <a href="{{ site.baseurl }}/categories/{{ cat_slug }}/">
                   <i class="fa-fw fas fa-angle-right"></i>
                   {{ parts[1] }} ({{ category[1].size }})
                 </a>
@@ -73,9 +87,17 @@
             {% endif %}
           {% endfor %}
         </ul>
-      </li>
-    {% endfor %}
-  </ul>
+      {% else %}
+  {% assign cat_posts = site.categories[top] %}
+  {% assign post_count = cat_posts | size %}
+  <a class="nav-link d-flex justify-content-start align-items-center" href="{{ site.baseurl }}/categories/{{ cat_id }}/">
+    <span><i class="far fa-folder fa-fw"></i> {{ top }}</span>
+    <span class="ms-auto">({{ post_count }})</span>
+  </a>
+{% endif %}
+    </li>
+  {% endfor %}
+</ul>
 </li>
 
 
