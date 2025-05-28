@@ -28,25 +28,56 @@
       
       <!-- Categories -->
       <li class="nav-item">
-        <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0);" id="toggle-categories">
-          <span>
-            <i class="fa-fw fas fa-folder-open"></i>
-            CATEGORIES
-          </span>
-          <i class="fas fa-chevron-down" id="toggle-icon"></i>
-          </a>
-        <ul class="nav flex-column ms-0 d-none" id="category-list">
-          {% assign sorted_categories = site.categories | sort %}
+  <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0);" id="toggle-categories">
+    <span>
+      <i class="fa-fw fas fa-folder-open"></i>
+      CATEGORIES
+    </span>
+    <i class="fas fa-chevron-down" id="toggle-icon"></i>
+  </a>
+
+  <ul class="nav flex-column ms-0 d-none" id="category-list">
+    {% assign sorted_categories = site.categories | sort %}
+    {% assign top_level_categories = "" | split: "" %}
+
+    {%- comment -%}
+      중복 제거 및 정렬된 상위 카테고리 목록 추출
+    {%- endcomment -%}
+    {% for category in sorted_categories %}
+      {% assign cat_name = category[0] %}
+      {% assign first_part = cat_name | split: "/" | first %}
+      {% unless top_level_categories contains first_part %}
+        {% assign top_level_categories = top_level_categories | push: first_part %}
+      {% endunless %}
+    {% endfor %}
+
+    {% for top in top_level_categories %}
+      {% assign cat_id = top | slugify %}
+      <li class="nav-item" id="h_{{ cat_id }}">
+        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#l_{{ cat_id }}" role="button" aria-expanded="false" aria-controls="l_{{ cat_id }}">
+          <span><i class="far fa-folder fa-fw"></i> {{ top }}</span>
+          <i class="fas fa-angle-down"></i>
+        </a>
+
+        <ul class="collapse ms-2" id="l_{{ cat_id }}">
           {% for category in sorted_categories %}
-            <li class="nav-item">
-              <a class="nav-link" href="{{ site.baseurl }}/categories/{{ category[0] | slugify }}/">
-                <i class="fa-fw fas fa-angle-right"></i>
-                {{ category[0] }} ({{ category[1].size }})
-              </a>
-            </li>
+            {% assign cat_name = category[0] %}
+            {% assign parts = cat_name | split: "/" %}
+            {% if parts.size > 1 and parts[0] == top %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ site.baseurl }}/categories/{{ cat_name | slugify }}/">
+                  <i class="fa-fw fas fa-angle-right"></i>
+                  {{ parts[1] }} ({{ category[1].size }})
+                </a>
+              </li>
+            {% endif %}
           {% endfor %}
         </ul>
       </li>
+    {% endfor %}
+  </ul>
+</li>
+
 
 
       <!-- the real tabs -->
