@@ -14,152 +14,72 @@ script_includes:
 {% include toc-status.html %}
 
 <article class="px-1" data-toc="{{ enable_toc }}">
-  {% if page.image %}
-    <div class="hero-image-container position-relative mb-4">
-      <!-- 이미지 -->
-      <img
-        src="{{ page.image.path | default: page.image }}"
-        class="w-100 img-fluid preview-img {% if page.image.no_bg %}no-bg{% endif %}"
-        alt="{{ page.image.alt | xml_escape | default: 'Preview Image' }}"
-        style="height: 400px; object-fit: cover;"
-      >
+  <header>
+    <h1 data-toc-skip>{{ page.title }}</h1>
 
-      <!-- 이미지 위에 겹치는 header -->
-      <div class="position-absolute position-absolute bottom-0 start-0 w-100 d-flex align-items-start">
-        <header class="hero-header text-white p-3 w-100">
-          <h1 data-toc-skip>{{ page.title }}</h1>
-          {% if page.description %}
-            <p class="post-desc fw-light mb-4">{{ page.description }}</p>
-          {% endif %}
+    {% if page.description %}
+      <p class="post-desc fw-light mb-4">{{ page.description }}</p>
+    {% endif %}
 
-          <div class="post-meta text-muted">
-            <!-- published date -->
-            <span>
-              {{ site.data.locales[lang].post.posted }}
-              {% include datetime.html date=page.date tooltip=true lang=lang %}
-            </span>
+    <div class="post-meta text-muted">
+      <!-- published date -->
+      <span>
+        {{ site.data.locales[lang].post.posted }}
+        {% include datetime.html date=page.date tooltip=true lang=lang %}
+      </span>
 
-            <!-- lastmod date -->
-            {% if page.last_modified_at and page.last_modified_at != page.date %}
-              <span>
-                {{ site.data.locales[lang].post.updated }}
-                {% include datetime.html date=page.last_modified_at tooltip=true lang=lang %}
-              </span>
-            {% endif %}
-
-            <div class="d-flex justify-content-between">
-              <!-- author(s) -->
-              <span>
-                {% if page.author %}
-                  {% assign authors = page.author %}
-                {% elsif page.authors %}
-                  {% assign authors = page.authors %}
-                {% endif %}
-
-                {{ site.data.locales[lang].post.written_by }}
-
-                <em>
-                  {% if authors %}
-                    {% for author in authors %}
-                      {% if site.data.authors[author].url -%}
-                        <a href="{{ site.data.authors[author].url }}">{{ site.data.authors[author].name }}</a>
-                      {%- else -%}
-                        {{ site.data.authors[author].name }}
-                      {%- endif %}
-                      {% unless forloop.last %}{{ '</em>, <em>' }}{% endunless %}
-                    {% endfor %}
-                  {% else %}
-                    <a href="{{ site.social.links[0] }}">{{ site.social.name }}</a>
-                  {% endif %}
-                </em>
-              </span>
-
-              <div>
-                <!-- pageviews -->
-                {% if site.pageviews.provider and site.analytics[site.pageviews.provider].id %}
-                  <span>
-                    <em id="pageviews">
-                      <i class="fas fa-spinner fa-spin small"></i>
-                    </em>
-                    {{ site.data.locales[lang].post.pageview_measure }}
-                  </span>
-                {% endif %}
-
-                <!-- read time -->
-                {% include read-time.html content=content prompt=true lang=lang %}
-              </div>
-            </div>
-          </div>
-        </header>
-      </div>
-    </div>
-  {% else %}
-    <header>
-      <h1 data-toc-skip>{{ page.title }}</h1>
-      {% if page.description %}
-        <p class="post-desc fw-light mb-4">{{ page.description }}</p>
+      <!-- lastmod date -->
+      {% if page.last_modified_at and page.last_modified_at != page.date %}
+        <span>
+          {{ site.data.locales[lang].post.updated }}
+          {% include datetime.html date=page.last_modified_at tooltip=true lang=lang %}
+        </span>
       {% endif %}
 
-      <div class="post-meta text-muted">
-        <!-- published date -->
+      <div class="d-flex justify-content-between">
+        <!-- author(s) -->
         <span>
-          {{ site.data.locales[lang].post.posted }}
-          {% include datetime.html date=page.date tooltip=true lang=lang %}
+          {% if page.author %}
+            {% assign authors = page.author %}
+          {% elsif page.authors %}
+            {% assign authors = page.authors %}
+          {% endif %}
+
+          {{ site.data.locales[lang].post.written_by }}
+
+          <em>
+            {% if authors %}
+              {% for author in authors %}
+                {% if site.data.authors[author].url -%}
+                  <a href="{{ site.data.authors[author].url }}">{{ site.data.authors[author].name }}</a>
+                {%- else -%}
+                  {{ site.data.authors[author].name }}
+                {%- endif %}
+                {% unless forloop.last %}{{ '</em>, <em>' }}{% endunless %}
+              {% endfor %}
+            {% else %}
+              <a href="{{ site.social.links[0] }}">{{ site.social.name }}</a>
+            {% endif %}
+          </em>
         </span>
 
-        <!-- lastmod date -->
-        {% if page.last_modified_at and page.last_modified_at != page.date %}
-          <span>
-            {{ site.data.locales[lang].post.updated }}
-            {% include datetime.html date=page.last_modified_at tooltip=true lang=lang %}
-          </span>
-        {% endif %}
+        <div>
+          <!-- pageviews -->
+          {% if site.pageviews.provider and site.analytics[site.pageviews.provider].id %}
+            <span>
+              <em id="pageviews">
+                <i class="fas fa-spinner fa-spin small"></i>
+              </em>
+              {{ site.data.locales[lang].post.pageview_measure }}
+            </span>
+          {% endif %}
 
-        <div class="d-flex justify-content-between">
-          <!-- author(s) -->
-          <span>
-            {% if page.author %}
-              {% assign authors = page.author %}
-            {% elsif page.authors %}
-              {% assign authors = page.authors %}
-            {% endif %}
-
-            {{ site.data.locales[lang].post.written_by }}
-
-            <em>
-              {% if authors %}
-                {% for author in authors %}
-                  {% if site.data.authors[author].url -%}
-                    <a href="{{ site.data.authors[author].url }}">{{ site.data.authors[author].name }}</a>
-                  {%- else -%}
-                    {{ site.data.authors[author].name }}
-                  {%- endif %}
-                  {% unless forloop.last %}{{ '</em>, <em>' }}{% endunless %}
-                {% endfor %}
-              {% else %}
-                <a href="{{ site.social.links[0] }}">{{ site.social.name }}</a>
-              {% endif %}
-            </em>
-          </span>
-
-          <div>
-            <!-- pageviews -->
-            {% if site.pageviews.provider and site.analytics[site.pageviews.provider].id %}
-              <span>
-                <em id="pageviews">
-                  <i class="fas fa-spinner fa-spin small"></i>
-                </em>
-                {{ site.data.locales[lang].post.pageview_measure }}
-              </span>
-            {% endif %}
-
-            <!-- read time -->
-            {% include read-time.html content=content prompt=true lang=lang %}
-          </div>
+          <!-- read time -->
+          {% include read-time.html content=content prompt=true lang=lang %}
         </div>
       </div>
-    </header>
-  {% endif %}
+    </div>
+  </header>
 
   {% if enable_toc %}
     <div id="toc-bar" class="d-flex align-items-center justify-content-between invisible">
