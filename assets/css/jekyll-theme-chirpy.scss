@@ -11,9 +11,9 @@
 /* append your custom style below */
 #category-list {
   width: 130%;
-  margin-left: 0; 
+  margin-left: 0;
   padding-left: 0rem;
-  padding-right: 1.0rem;
+  padding-right: 1rem;
   font-size: 0.9rem; /* 필요 시 텍스트 크기도 조정 */
   word-break: break-word; /* 긴 단어 줄바꿈 */
 }
@@ -21,9 +21,15 @@
 #sidebar ul.collapse {
   width: 140%;
   padding-left: 0.5rem; /* 너무 붙지 않도록 최소한만 남김 */
-  margin-left: 0;       /* 필요시 마진도 제거 */
-  margin-bottom: 0;       /* 필요시 마진도 제거 */
-  list-style: none;     /* 불릿 제거 */
+  margin-left: 0; /* 필요시 마진도 제거 */
+  margin-bottom: 0; /* 필요시 마진도 제거 */
+  list-style: none; /* 불릿 제거 */
+}
+
+#category-list ul {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
 }
 
 #sidebar .collapse .nav-link {
@@ -35,4 +41,14 @@
 
 #sidebar .nav-link i.fa-angle-right {
   margin-right: 0.3rem; /* 필요하면 간격 줄이기 */
+}
+
+.hero-image-container {
+  position: static;
+
+  .hero-header {
+    z-index: 10;
+    background: rgba(109, 109, 109, 0.3); // 어두운 반투명 배경
+    border-radius: 0.5rem;
+  }
 }

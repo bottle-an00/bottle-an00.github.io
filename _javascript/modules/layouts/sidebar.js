@@ -12,7 +12,6 @@ class SidebarUtil {
     $sidebar.classList.toggle('z-2', this.#isExpanded);
     $mask.classList.toggle('d-none', !this.#isExpanded);
   }
-  
 }
 
 export function initSidebar() {
