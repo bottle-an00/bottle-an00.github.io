@@ -10,10 +10,10 @@
 
 /* append your custom style below */
 #category-list {
-  width: 130%;
+  width: 140%;
   margin-left: 0;
   padding-left: 0rem;
-  padding-right: 1rem;
+  padding-right: 0.4rem;
   font-size: 0.9rem; /* 필요 시 텍스트 크기도 조정 */
   word-break: break-word; /* 긴 단어 줄바꿈 */
 }
@@ -21,6 +21,7 @@
 #sidebar ul.collapse {
   width: 140%;
   padding-left: 0.5rem; /* 너무 붙지 않도록 최소한만 남김 */
+  padding-right: 0.5rem; /* 너무 붙지 않도록 최소한만 남김 */
   margin-left: 0; /* 필요시 마진도 제거 */
   margin-bottom: 0; /* 필요시 마진도 제거 */
   list-style: none; /* 불릿 제거 */
