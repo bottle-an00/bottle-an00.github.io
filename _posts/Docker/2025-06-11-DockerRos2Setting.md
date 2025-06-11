@@ -32,7 +32,7 @@ Docker Hub에서 원하는 버전의 ros Image를 다운 받았다면 이번에�
 
 우선, 내가 원하는 개발환경에 맞는 Container를 생성하기 위해서 아래와 같이 docker run 명령어를 사용하되 몇가지 옵션을 추가할 것이다.
 
-*(이중에는 사용하지 않을 옵션들이 있지만 이런 것도 있구나해서 이것저것 추가한 것이다.)*
+*(이 중에는 사용하지 않을 옵션들이 있지만 이런 것도 있구나해서 이것저것 추가한 것이다.)*
 
 ```bash
 $ docker run -it \
@@ -41,9 +41,9 @@ $ docker run -it \
 	--env DISPLAY=$DISPLAY \
 	-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
 	--device=/dev/video0:/dev/video0 \
-	--ipc=host\
+	--ipc=host \
 	-v humble_ws:/root/ros_ws/ \
-	-w /root/ros_ws\
+	-w /root/ros_ws \
 	--name humble_ws \
 	osrf/ros:humble-desktop-full
 ```
@@ -89,4 +89,122 @@ $ docker run -it \
 
 
 
-## Dockerfile을 활용한 Custom Image 생성
+## ROS 개발 환경 관련 기본 설정
+
+위의 명령어를 통해 나의 경우에는 ROS2 (humble버전) 개발 환경의 bash에 접속할 수 있는 것을 확인할 수 있다. 
+
+패스트 캠프 강의에서 ~/.bashrc에 설정할 내용을 정리해주었는데 이는 아래와 같다. 
+
+```bash
+source /opt/ros/humble/setup.bash
+source ~/ros2_ws/install/local_setup.bash
+# source ~/uros_ws/install/local_setup.bash
+
+source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+source /usr/share/vcstool-completion/vcs.bash
+source /usr/share/colcon_cd/function/colcon_cd.sh
+export _colcon_cd_root=~/ros2_ws
+
+# argcomplete for ros2 & colcon
+eval "$(register-python-argcomplete3 ros2)"
+eval "$(register-python-argcomplete3 colcon)"
+
+# export ROS_NAMESPACE=robot1
+
+export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+# export RMW_IMPLEMENTATION=rmw_connext_cpp
+# export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+# export RMW_IMPLEMENTATION=rmw_gurumdds_cpp
+
+# export RCUTILS_CONSOLE_OUTPUT_FORMAT='[{severity} {time}] [{name}]: {message} ({function_name}() at {file_name}:{line_number})'
+export RCUTILS_CONSOLE_OUTPUT_FORMAT='[{severity}]: {message}'
+export RCUTILS_COLORIZED_OUTPUT=1
+export RCUTILS_LOGGING_USE_STDOUT=0
+export RCUTILS_LOGGING_BUFFERED_STREAM=1
+
+alias cw='cd ~/ros2_ws'
+alias cs='cd ~/ros2_ws/src'
+alias ccd='colcon_cd'
+
+alias cb='cd ~/ros2_ws && colcon build --symlink-install'
+alias cbs='colcon build --symlink-install'
+alias cbp='colcon build --symlink-install --packages-select'
+alias cbu='colcon build --symlink-install --packages-up-to'
+alias ct='colcon test'
+alias ctp='colcon test --packages-select'
+alias ctr='colcon test-result'
+
+alias tl='ros2 topic list'
+alias te='ros2 topic echo'
+alias nl='ros2 node list'
+
+alias killgazebo='killall -9 gazebo & killall -9 gzserver & killall -9 gzclient'
+
+alias af='ament_flake8'
+alias ac='ament_cpplint'
+
+alias testpub='ros2 run demo_nodes_cpp talker'
+alias testsub='ros2 run demo_nodes_cpp listener'
+alias testpubimg='ros2 run image_tools cam2image'
+alias testsubimg='ros2 run image_tools showimage'
+
+alias di='rosdep install --from-paths src -y --ignore-src --os=ubuntu:jammy'
+
+# export ROS_DOMAIN_ID=7
+```
+
+이를 복사 붙여넣기 하면 된다. 
+
+다만, 이를 복사 붙여넣기 하기 위해서는 vim이나 vi를 사용하는 방법도 있는데, 사용해보면 알 수 있듯이 매우 번거롭다..
+
+따라서, gedit을 설치하여 내용을 수정할 것이다. 
+
+```bash
+$ apt update
+$ apt install gedit -y
+$ gedit ~/.bashrc
+$ #위의 내용을 복사 붙여넣기 한다. 
+$ source ~/.bashrc # 수정사항을 터미널 재시작을 통해 적용
+```
+
+여기서 gedit ~/.bashrc 를 하게 되면 아래 사진과 같이 display:0을 열 수 없다는 error가 발생한다. 
+
+![image-20250612012026698](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612012026698.png)
+
+<br>
+
+위의 docker run을 통해 도커 컨테이너에 접속하였다면 ros_ws 경로가 시작위치인 것을 확인할 수 있을 것이다. 
+
+이때  ls 명령어를 입력하여 파일 및 디렉토리 목록을 보면 비어있는 것을 볼 수 있다.
+
+ 몇가지 명령어를 입력하여 ROS2 개발 환경에 맞는 workspace를 구축할 것이다. 
+
+```bash
+#~/ros_ws에서 아래 명령어 입력
+$ mkdir src
+$ colcon build --symlink-install
+```
+
+위의 명령어 입력 결과 아래와 같은 출력을 터미널에서 확인 가능하다. 
+
+![image-20250612010709476](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612010709476.png)
+
+여러 디렉토리가 생성된 것을 확인할 수 있다. 
+
+<br>
+
+### ROS2 기능 확인
+
+------
+
+docker run 명령어를 통해 접속한 도커 컨테이너를 추가로 bash 창을 띄우게 하기 위해선 터미널을 분할 후 아래 명령어를 입력하면 된다.
+
+```bash
+$ docker exec -it humble_ws /bin/bash
+```
+
+그러면 동일한 도커 컨테이너의 다른 bash 창이 추가되는 것을 확인할 수 있다. 
+
+![image-20250612011426608](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612011426608.png)
+
+~/.bashrc에서 설정한 것처럼  testpub과 testsub를 입력하면 서로 다른 노드들이 통신 중임을 확인할 수 있다. 
