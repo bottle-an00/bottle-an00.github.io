@@ -6,7 +6,21 @@ image: /assets/img/docker_logo.png
 tyora-root-url: ../../
 ---
 
+<br>
 
+------
+
+
+
+> [!IMPORTANT]
+>
+> **"ROS2 개발 환경을 Docker container로 구축하고자 하는 이유는 현재 내 데스크탑과 노트북은 서로 다른 UBUNTU 버전을 사용하고 있고 이미 중요한 파일이나 구축해 높은 개발 환경이 존재하기에 밀어버리기 힘든 상황이다. 따라서, 새로운 버전의 UBUNTU를 설치하지 않고 개발 환경을 구축하기 위해 Docker를 사용한 것이다."**
+
+------
+
+<br>
+
+<br>
 
 ## ROS Image Download
 
@@ -97,7 +111,7 @@ $ docker run -it \
 
 ```bash
 source /opt/ros/humble/setup.bash
-source ~/ros2_ws/install/local_setup.bash
+source ~/ros_ws/install/local_setup.bash
 # source ~/uros_ws/install/local_setup.bash
 
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
@@ -153,7 +167,11 @@ alias di='rosdep install --from-paths src -y --ignore-src --os=ubuntu:jammy'
 # export ROS_DOMAIN_ID=7
 ```
 
-이를 복사 붙여넣기 하면 된다. 
+내용을 살펴보면 
+
+ROS Humble을 사용하기 위한 기본적인 설정 뿐 아니라 여러 긴 명령어를 단축해 놓은 것들도 볼 수 있다. 
+
+이를 ~/.bashrc 파일 아래에 복사 붙여넣기 하면 된다. 
 
 다만, 이를 복사 붙여넣기 하기 위해서는 vim이나 vi를 사용하는 방법도 있는데, 사용해보면 알 수 있듯이 매우 번거롭다..
 
@@ -163,13 +181,27 @@ alias di='rosdep install --from-paths src -y --ignore-src --os=ubuntu:jammy'
 $ apt update
 $ apt install gedit -y
 $ gedit ~/.bashrc
-$ #위의 내용을 복사 붙여넣기 한다. 
+# 위의 내용을 복사 붙여넣기 한다. 
 $ source ~/.bashrc # 수정사항을 터미널 재시작을 통해 적용
 ```
+
+<br>
+
+#### X서버에 Docker의 접근 권한 부여
+
+------
 
 여기서 gedit ~/.bashrc 를 하게 되면 아래 사진과 같이 display:0을 열 수 없다는 error가 발생한다. 
 
 ![image-20250612012026698](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612012026698.png)
+
+이를 해결하기 위해서 다른 호스트 터미널에서 아래 명령어를 입력하여 X 서버에 접근 권한을 부여해주면 GUI 사용이 가능하다. 
+
+```bash
+$ xhost +local:docker
+```
+
+
 
 <br>
 
@@ -187,7 +219,7 @@ $ colcon build --symlink-install
 
 위의 명령어 입력 결과 아래와 같은 출력을 터미널에서 확인 가능하다. 
 
-![image-20250612010709476](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612010709476.png)
+![image-20250612090429734](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612090429734.png)
 
 여러 디렉토리가 생성된 것을 확인할 수 있다. 
 
@@ -197,6 +229,10 @@ $ colcon build --symlink-install
 
 ------
 
+<br>
+
+#### [talker & listener로 ROS 통신 확인]
+
 docker run 명령어를 통해 접속한 도커 컨테이너를 추가로 bash 창을 띄우게 하기 위해선 터미널을 분할 후 아래 명령어를 입력하면 된다.
 
 ```bash
@@ -205,6 +241,43 @@ $ docker exec -it humble_ws /bin/bash
 
 그러면 동일한 도커 컨테이너의 다른 bash 창이 추가되는 것을 확인할 수 있다. 
 
-![image-20250612011426608](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612011426608.png)
+![image-20250612090350878](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612090350878.png)
+
+<br>
 
 ~/.bashrc에서 설정한 것처럼  testpub과 testsub를 입력하면 서로 다른 노드들이 통신 중임을 확인할 수 있다. 
+
+<br>
+
+![image-20250612090926123](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612090926123.png)
+
+<br>
+
+#### [RVIZ2 실행]
+
+```bash
+$ rviz2
+```
+
+성공적으로 rviz 화면이 출력되는 것을 볼 수 있다. 
+
+![image-20250612112357514](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612112357514.png)
+
+<br>
+
+### Problem
+
+------
+
+위의 docker run 명령어로 다운 받은 docker image를 사용하면 성공적으로 ROS2 Humble 개발환경을 구축할 수 있었다.
+
+다만, 이 상황에서의 문제는 매번 docker run 명령어로 docker 컨테이너를 실행할 때 마다 이전에 설치하였던 package를 다시 설치해야하는 문제가 발생한다. 
+
+<br>
+
+이를 해결하기 위한 방법으로 여러 docker container를 dockerfile을 활용하여 생성하는 방법이 있다. 
+
+<br>
+
+Dockerfile을 통해 도커 컨테이너를 생성하는 방법은 추후 포스팅에서 정리하도록 하겠다. 
+
