@@ -193,7 +193,7 @@ $ source ~/.bashrc # 수정사항을 터미널 재시작을 통해 적용
 
 여기서 gedit ~/.bashrc 를 하게 되면 아래 사진과 같이 display:0을 열 수 없다는 error가 발생한다. 
 
-![image-20250612012026698](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612012026698.png)
+![image-20250612012026698](/assets/img/2025-06-11-DockerRos2Setting/image-20250612012026698.png)
 
 이를 해결하기 위해서 다른 호스트 터미널에서 아래 명령어를 입력하여 X 서버에 접근 권한을 부여해주면 GUI 사용이 가능하다. 
 
@@ -219,7 +219,7 @@ $ colcon build --symlink-install
 
 위의 명령어 입력 결과 아래와 같은 출력을 터미널에서 확인 가능하다. 
 
-![image-20250612090429734](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612090429734.png)
+![image-20250612090429734](/assets/images/2025-06-11-DockerRos2Setting/image-20250612090429734.png)
 
 여러 디렉토리가 생성된 것을 확인할 수 있다. 
 
@@ -241,7 +241,7 @@ $ docker exec -it humble_ws /bin/bash
 
 그러면 동일한 도커 컨테이너의 다른 bash 창이 추가되는 것을 확인할 수 있다. 
 
-![image-20250612090350878](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612090350878.png)
+![image-20250612090350878](/assets/images/2025-06-11-DockerRos2Setting/image-20250612090350878.png)
 
 <br>
 
@@ -249,7 +249,7 @@ $ docker exec -it humble_ws /bin/bash
 
 <br>
 
-![image-20250612090926123](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612090926123.png)
+![image-20250612090926123](/assets/images/2025-06-11-DockerRos2Setting/image-20250612090926123.png)
 
 <br>
 
@@ -261,7 +261,7 @@ $ rviz2
 
 성공적으로 rviz 화면이 출력되는 것을 볼 수 있다. 
 
-![image-20250612112357514](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612112357514.png)
+![image-20250612112357514](/assets/images/2025-06-11-DockerRos2Setting/image-20250612112357514.png)
 
 <br>
 
