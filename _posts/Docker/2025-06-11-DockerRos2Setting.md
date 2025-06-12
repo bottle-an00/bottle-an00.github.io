@@ -39,6 +39,8 @@ $ docker run -it \
 	--rm \
 	--privileged \
 	--env DISPLAY=$DISPLAY \
+	--network host \
+	--gpus all \
 	-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
 	--device=/dev/video0:/dev/video0 \
 	--ipc=host \
@@ -65,6 +67,16 @@ $ docker run -it \
 >
 > - **--env DISPLAY=$DISPLAY**: 컨테이너 내부에 DISPLAY 환경 변수를 호스트의 DISPLAY환경 변수 값으로 설정한다. 이를 통해 ROS의 RVIZ나 rqt와 같은 GUI 도구를 시각적으로 화면에 출력할 수 있게 한다. 
 >
+> - **--network host** : 도커 컨테이너가 호스트의 네트워크 스택을 공유하도록 지시한다. 
+>
+>   컨테이너 내부에서 `DISPLAY` 환경 변수가 `localhost:0.0` 또는 `172.17.0.1:0.0` (도커 브리지 네트워크의 게이트웨이 IP) 등으로 설정되어 있어도, 실제로 컨테이너가 호스트의 X 서버에 접근하기 위한 네트워크 경로가 올바르게 설정되지 않거나 방화벽 등의 문제로 차단될 수 있다. 
+>
+>   또한, `DISPLAY=$DISPLAY`로 호스트의 `DISPLAY` 변수를 전달했더라도, 컨테이너가 호스트의 IP 주소를 통해 X 서버에 접근할 수 있는 경로가 없으면 무용지물이 된다. 
+>
+>   `DISPLAY` 변수의 값이 `:0` 또는 `localhost:0`인 경우, 컨테이너 내부의 `localhost`가 호스트의 `localhost`가 아니므로 연결할 수 없다.
+>
+>   `--network host`를 사용했을 때, 컨테이너의 `localhost`는 호스트의 `localhost`와 동일해진다. 따라서, DISPLAY 변수를 보고 호스트의 X서버에 직접 연결이 가능하다. 
+>
 > - **-v /tmp/.X11-unix:/tmp/.X11-unix:rw**: 
 >
 >   - **-v (--volume) [호스트에서의 DIR]:[컨테이너 내에서의 DIR] :** 호스트 filesystem에서의 파일을 도커 컨테이너 안에서도 사용할 수 있게 해당 경로를 마운트한다. 
@@ -87,7 +99,9 @@ $ docker run -it \
 >
 > - **osrf/ros:humble-desktop-full**: 컨테이너를 생성하는 데 사용될 도커 image를 설정한다. 
 
+여기서 GUI 포워딩을 위한 중요한 옵션은 **--env DISPLAY=$DISPLAY, --network host, -v /tmp/.X11-unix:/tmp/.X11-unix:rw, --ipc=host**이다. 
 
+<br>
 
 ## ROS 개발 환경 관련 기본 설정
 
