@@ -221,7 +221,7 @@ $ colcon build --symlink-install
 
 위의 명령어 입력 결과 아래와 같은 출력을 터미널에서 확인 가능하다. 
 
-![image-20250612010709476](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612010709476.png)
+![image-20250614175031259](/assets/images/2025-06-11-DockerRos2Setting/image-20250614175031259.png)
 
 여러 디렉토리가 생성된 것을 확인할 수 있다. 
 
@@ -239,7 +239,7 @@ $ docker exec -it humble_ws /bin/bash
 
 그러면 동일한 도커 컨테이너의 다른 bash 창이 추가되는 것을 확인할 수 있다. 
 
-![image-20250612011426608](/assets/img/2025-06-11-DockerRos2Setting/image-20250612011426608.png)
+![image-20250614174955718](/assets/images/2025-06-11-DockerRos2Setting/image-20250614174955718.png)
 
 ~/.bashrc에서 설정한 것처럼  testpub과 testsub를 입력하면 서로 다른 노드들이 통신 중임을 확인할 수 있다. 
 
