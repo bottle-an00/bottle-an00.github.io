@@ -2,7 +2,7 @@
 title: Docker로 ROS 개발 환경 구축하기
 categories: Docker
 tag: [Docker,ROS2,humble,개발환경 구축]
-image: /assets/img/docker_logo.png
+image: /assets/img/docker_logo.jpeg
 typora-root-url: ../../
 ---
 
