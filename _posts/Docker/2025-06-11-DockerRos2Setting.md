@@ -3,7 +3,7 @@ title: Docker로 ROS 개발 환경 구축하기
 categories: Docker
 tag: [Docker,ROS2,humble,개발환경 구축]
 image: /assets/img/docker_logo.png
-tyora-root-url: ../../
+typora-root-url: ../../
 ---
 
 <br>
@@ -203,7 +203,7 @@ $ source ~/.bashrc # 수정사항을 터미널 재시작을 통해 적용
 
 여기서 gedit ~/.bashrc 를 하게 되면 아래 사진과 같이 display:0을 열 수 없다는 error가 발생한다. 
 
-![image-20250612012026698](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612012026698.png)
+![image-20250612012026698](/assets/images/2025-06-11-DockerRos2Setting/image-20250612012026698.png)
 
 <br>
 
