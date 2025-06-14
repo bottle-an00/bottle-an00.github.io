@@ -239,13 +239,13 @@ $ docker exec -it humble_ws /bin/bash
 
 그러면 동일한 도커 컨테이너의 다른 bash 창이 추가되는 것을 확인할 수 있다. 
 
-![image-20250612011426608](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612011426608.png)
+![image-20250612011426608](/assets/img/2025-06-11-DockerRos2Setting/image-20250612011426608.png)
 
 ~/.bashrc에서 설정한 것처럼  testpub과 testsub를 입력하면 서로 다른 노드들이 통신 중임을 확인할 수 있다. 
 
 <br>
 
-![image-20250612090926123](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612090926123.png)
+![image-20250612090926123](/assets/images/2025-06-11-DockerRos2Setting/image-20250612090926123.png)
 
 <br>
 
@@ -257,7 +257,7 @@ $ rviz2
 
 성공적으로 rviz 화면이 출력되는 것을 볼 수 있다. 
 
-![image-20250612112357514](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612112357514.png)
+![image-20250612112357514](/assets/images/2025-06-11-DockerRos2Setting/image-20250612112357514.png)
 
 <br>
 
