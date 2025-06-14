@@ -245,7 +245,7 @@ $ docker exec -it humble_ws /bin/bash
 
 <br>
 
-![image-20250612090926123](/assets/images/2025-06-11-DockerRos2Setting/image-20250612090926123.png)
+![image-20250612090926123](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612090926123.png)
 
 <br>
 
@@ -257,7 +257,7 @@ $ rviz2
 
 성공적으로 rviz 화면이 출력되는 것을 볼 수 있다. 
 
-![image-20250612112357514](/assets/images/2025-06-11-DockerRos2Setting/image-20250612112357514.png)
+![image-20250612112357514](../../assets/images/2025-06-11-DockerRos2Setting/image-20250612112357514.png)
 
 <br>
 
