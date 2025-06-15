@@ -60,7 +60,6 @@ $ docker run -it \
 	--privileged \
 	--env DISPLAY=$DISPLAY \
 	--network host \
-	--gpus all \
 	-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
 	--device=/dev/video0:/dev/video0 \
 	--ipc=host \

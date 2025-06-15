@@ -1,0 +1,63 @@
+{% comment %}
+  'post_path' 인자로 전달받은 값을 바탕으로 _posts 디렉토리에서 해당 포스트를 찾아
+  home.html과 동일한 카드 형태로 표시합니다.
+  사용 예시: {% include link_card.html post_path="Docker/2025-06-11-DockerROS2Setting.md" %}
+{% endcomment %}
+
+{% assign target_post = null %}
+
+{% comment %} post_path는 _posts/를 제외한 상대 경로 (예: Docker/2025-06-11-DockerROS2Setting.md) {% endcomment %}
+{% assign full_expected_path = "_posts/" | append: include.post_path %}
+
+{% for post in site.posts %}
+  {% if post.path == full_expected_path %}
+    {% assign target_post = post %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if target_post %}
+  <div id="post-list" class="flex-grow-1 px-xl-1">
+    <article class="card-wrapper card mb-4">
+      <a href="{{ target_post.url | relative_url }}" class="post-preview row g-0 flex-md-row-reverse">
+        {% assign card_body_col = '12' %}
+
+        <div class="col-md-{{ card_body_col }}">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">{{ target_post.title }}</h1>
+            <div class="card-text content mt-0 mb-3">
+              <p>{% include post-description.html post=target_post %}</p>
+            </div>
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <i class="far fa-calendar fa-fw me-1"></i>
+                {% include datetime.html date=target_post.date lang=lang %}
+                {% if target_post.categories.size > 0 %}
+                  <i class="far fa-folder-open fa-fw me-1"></i>
+                  <span class="categories">
+                    {% for category in target_post.categories %}
+                      {{ category }}
+                      {%- unless forloop.last -%},{%- endunless -%}
+                    {% endfor %}
+                  </span>
+                {% endif %}
+              </div>
+              {% if target_post.pin %}
+                <div class="pin ms-1">
+                  <i class="fas fa-thumbtack fa-fw"></i>
+                  <span>{{ site.data.locales[lang].post.pin_prompt }}</span>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </a>
+  </article>
+</div>
+{% else %}
+
+  <p style="color: red; background-color: #ffe0e0; padding: 5px; border: 1px solid red; border-radius: 4px;">
+    <strong>경고: 포스트 '{{ include.post_path }}'를 찾을 수 없습니다.</strong>
+    (예상 경로: "_posts/{{ include.post_path }}")
+  </p>
+{% endif %}
