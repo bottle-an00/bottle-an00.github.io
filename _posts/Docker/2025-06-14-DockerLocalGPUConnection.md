@@ -172,7 +172,19 @@ RUN locale-gen en_US en_US.UTF-8 \
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
-# 5. ROS2 설치 (Desktop 버전 권장)
+# 5. ROS2 설치 
+
+# ROS2 설치시 지역 설정 관련되 부분을 SKIP하기 위함
+ENV DEBIAN_FRONTEND=noninteractive
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+    locale-gen en_US.UTF-8 && \
+    /usr/sbin/update-locale LANG=en_US.UTF-8
+
+ENV LANG="en_US.UTF-8" \
+    LC_ALL="en_US.UTF-8" \
+    LANGUAGE="en_US.UTF-8"
+
+# ROS2 설치 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-humble-desktop \
     ros-dev-tools \
@@ -188,7 +200,7 @@ RUN cat /tmp/bashrc_config_temp.txt >> /root/.bashrc && \
     
 # 7. (선택 사항) 필요한 ROS2 패키지 및 사용자 코드 추가
 WORKDIR /ros_ws
-COPY ./src /ros_ws/src
+COPY . .
 RUN apt-get update && rosdep install --from-paths src --ignore-src -r -y && rm -rf /var/lib/apt/lists/*
 RUN . /opt/ros/humble/setup.bash && colcon build --symlink-install
 
