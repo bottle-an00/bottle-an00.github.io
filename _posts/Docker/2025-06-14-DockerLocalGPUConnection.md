@@ -127,7 +127,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
 그리고, NVIDIA 공식 CUDA 이미지를 base로 사용하여 GPU 사용에 필요한 CUDA나 cuDNN을 사용하는 것을 권장한다.
 
-나는 ROS2 환경에서 GPU를 사용하고 싶으니, nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04를 base 이미지로 설정하고, RUN을 통해 ROS2를 따로 설치하도록 하겠다. (ROS2를 설치하는 것이 더욱 편하니깐..!)
+나는 ROS2 환경에서 GPU를 사용하고 싶으니, nvidia/cuda:12.1.1-cudnn8-devel-ubuntu22.04를 base 이미지로 설정하고, RUN을 통해 ROS2를 따로 설치하도록 하겠다. (CUDA를 설치하는 것보다는 ROS2를 설치하는 것이 더욱 편하니깐..!)
 
 <br>
 
@@ -235,7 +235,7 @@ GPU사용 옵션을 추가하기 위해 docker-compose.yaml은 아래와 같이 
 ```yaml
 services:
   humble_ws:
-    image: ros2-cuda-humble:latest
+    image: humble-gpu-env:latest
     container_name: humble_ws
     
     # GPU를 사용하는 경우 (NVIDIA GPU, nvidia-container-toolkit 설치 필요)
@@ -260,17 +260,18 @@ services:
     privileged: true
     network_mode: host
     ipc: host
+    runtime: nvidia
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev/video0:/dev/video0
-      - ~/humble_ws:/root/ros_ws/ 
+      - .:/root/ros_ws
     working_dir: /root/ros_ws
     
     # 컨테이너가 시작될 때 자동으로 실행할 명령 (Dockerfile CMD를 오버라이드)
     # `docker run`의 `--entrypoint` 또는 CMD와 유사
-    command: ["bash"] 
+    command: ["/bin/bash", "-c", "tail -f /dev/null"] 
 
 # 명명된 볼륨 정의 (컨테이너 간 데이터 공유 또는 영구 저장용)
 volumes:
