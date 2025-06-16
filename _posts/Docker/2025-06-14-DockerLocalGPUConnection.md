@@ -190,6 +190,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-dev-tools \
     && rm -rf /var/lib/apt/lists/*
 
+RUN rosdep init && rosdep update
+ 
 # 6. ROS2 환경 설정 스크립트 소싱 (매번 수동으로 할 필요 없도록)
 COPY bashrc_config.txt /tmp/bashrc_config_temp.txt
 
@@ -202,7 +204,6 @@ RUN cat /tmp/bashrc_config_temp.txt >> /root/.bashrc && \
 WORKDIR /ros_ws
 COPY . .
 RUN apt-get update && rosdep install --from-paths src --ignore-src -r -y && rm -rf /var/lib/apt/lists/*
-RUN . /opt/ros/humble/setup.bash && colcon build --symlink-install
 
 # 8. 컨테이너 시작 시 기본 명령 설정 (선택 사항)
 CMD ["bash"]
