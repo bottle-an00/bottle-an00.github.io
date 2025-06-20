@@ -1,21 +1,16 @@
-{%- comment -%}
-  Get post description or generate it from the post content.
-{%- endcomment -%}
-
 {%- assign max_length = include.max_length | default: 200 -%}
 
+{%- assign current_post = include.post | default: post -%}
+
 {%- capture description -%}
-{%- if post.description -%}
-  {{- post.description -}}
+{%- if current_post.description -%}
+  {{- current_post.description -}}
 {%- else -%}
-  {% comment %}
-    Remove the line number of the code snippet.
-  {% endcomment %}
-  {% assign content = post.content %}
+  {% comment %} 코드 스니펫의 줄 번호를 제거합니다. {% endcomment %}
+  {% assign content = current_post.content %}
 
   {% if content contains '<td class="rouge-gutter gl"><pre class="lineno">' %}
-    {% assign content = content | replace: '<td class="rouge-gutter gl"><pre class="lineno">', '<!-- <td class="rouge-gutter gl"><pre class="lineno">'%}
-    {% assign content = content | replace: '</td><td class="rouge-code">', '</td> --><td class="rouge-code">' %}
+    {% assign content = content | replace: '<td class="rouge-gutter gl"><pre class="lineno">', '<td class="rouge-code">' %}
   {% endif %}
 
   {{- content | markdownify | strip_html | newline_to_br | replace: '<br />', ' ' | strip_newlines -}}

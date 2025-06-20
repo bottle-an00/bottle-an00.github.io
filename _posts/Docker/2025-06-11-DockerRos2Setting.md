@@ -2,8 +2,8 @@
 title: Docker로 ROS 개발 환경 구축하기
 categories: Docker
 tag: [Docker,ROS2,humble,개발환경 구축]
-image: /assets/img/docker_logo.png
-tyora-root-url: ../../
+image: /assets/img/docker_logo.jpeg
+typora-root-url: ../../
 ---
 
 <br>
@@ -60,7 +60,6 @@ $ docker run -it \
 	--privileged \
 	--env DISPLAY=$DISPLAY \
 	--network host \
-	--gpus all \
 	-v /tmp/.X11-unix:/tmp/.X11-unix:rw \
 	--device=/dev/video0:/dev/video0 \
 	--ipc=host \
@@ -203,7 +202,7 @@ $ source ~/.bashrc # 수정사항을 터미널 재시작을 통해 적용
 
 여기서 gedit ~/.bashrc 를 하게 되면 아래 사진과 같이 display:0을 열 수 없다는 error가 발생한다. 
 
-![image-20250612012026698](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612012026698.png)
+![image-20250612012026698](/assets/images/2025-06-11-DockerRos2Setting/image-20250612012026698.png)
 
 <br>
 
@@ -221,7 +220,7 @@ $ colcon build --symlink-install
 
 위의 명령어 입력 결과 아래와 같은 출력을 터미널에서 확인 가능하다. 
 
-![image-20250612010709476](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612010709476.png)
+![image-20250614175031259](/assets/images/2025-06-11-DockerRos2Setting/image-20250614175031259.png)
 
 여러 디렉토리가 생성된 것을 확인할 수 있다. 
 
@@ -239,7 +238,7 @@ $ docker exec -it humble_ws /bin/bash
 
 그러면 동일한 도커 컨테이너의 다른 bash 창이 추가되는 것을 확인할 수 있다. 
 
-![image-20250612011426608](../../assets/img/2025-06-11-DockerRos2Setting/image-20250612011426608.png)
+![image-20250614174955718](/assets/images/2025-06-11-DockerRos2Setting/image-20250614174955718.png)
 
 ~/.bashrc에서 설정한 것처럼  testpub과 testsub를 입력하면 서로 다른 노드들이 통신 중임을 확인할 수 있다. 
 
