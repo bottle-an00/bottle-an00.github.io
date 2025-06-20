@@ -148,6 +148,7 @@ baseurl: ""
 
 plugins:
   [jekyll-youtube]
+  
   # This will require each of these gems automatically.
 
 favicon:
