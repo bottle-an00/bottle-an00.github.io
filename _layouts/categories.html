@@ -108,9 +108,9 @@ layout: page
             {% for sub in sub_categories %}
               <li class="list-group-item">
                 <i class="far fa-folder fa-fw"></i>
-                {% capture sub_key %}{{ parent }}/{{ sub }}{% endcapture %}
-                {% capture _sub_ctg_url %}/categories/{{ parent | url_encode }}-{{ sub | url_encode }}/{% endcapture %}
-                <a href="{{ _sub_ctg_url | relative_url }}" class="mx-2">{{ sub }}</a>
+                {% capture sub_key %}{{ parent | downcase }}/{{ sub | downcase}}{% endcapture %}
+                {% capture _sub_ctg_url %}/categories/{{ parent | downcase| url_encode }}-{{ sub | downcase| url_encode }}/{% endcapture %}
+                <a href="{{ _sub_ctg_url | relative_url }}" class="mx-2">{{ sub | downcase}}</a>
                 {% assign posts_size = site.categories[sub_key] | size %}
                 <span class="text-muted small font-weight-light">
                   {{ posts_size }}
@@ -130,7 +130,7 @@ layout: page
             <li class="list-group-item">
               <i class="far fa-folder fa-fw"></i>
               {% capture _only_ctg_url %}/categories/{{ parent | slugify | url_encode }}/{% endcapture %}
-              <a href="{{ _only_ctg_url | relative_url }}" class="mx-2">{{ parent }}</a>
+              <a href="{{ _only_ctg_url | relative_url }}" class="mx-2">{{ parent | downcase}}</a>
               <span class="text-muted small font-weight-light">
                 {{ top_posts_size }}
                 {% if top_posts_size > 1 %}
