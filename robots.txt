@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bottle-an00.github.io/jbasitemap.xml
+sitemap: https://bottle-an00.github.io/jbasitemap.xml
